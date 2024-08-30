@@ -8,26 +8,7 @@ const employees = [
   { id: 3, username: "shenron", password: "shenron123" },
 ];
 
-//this function is  taking user object that we just validate it in  passport.use(new stategy(() => {})) and storing it in the session
-passport.serializeUser((user, done) => {
-  console.log("inisde serialize user");
-  console.log(user);
-  done(null, user.id);
-});
 
-
-
-passport.deserializeUser((id, done) => {
-  console.log("inisde Deserialize ");
-  console.log(`deseriliazing user id: ${id}`);
-  try {
-    const findUser = employees.find((user) => user.id === id);
-    if (!findUser) throw new Error("user id not found");
-    done(null, findUser);
-  } catch (error) {
-    done(error, null);
-  }
-});
 
 //we need to to tell that passport use this strategy an instance it
 //this usernameField option is if your input is using email not username: you can use that option usernameField: 'email'
@@ -49,3 +30,24 @@ export default passport.use(
     }
   })
 );
+
+//this function is  taking user object that we just validate it in  passport.use(new stategy(() => {})) and storing it in the session
+passport.serializeUser((user, done) => {
+  console.log("inisde serialize user");
+  console.log(user);
+  done(null, user.id);
+});
+
+
+
+passport.deserializeUser((id, done) => {
+  console.log("inisde Deserialize ");
+  console.log(`deseriliazing user id: ${id}`);
+  try {
+    // const findUser = employees.find((user) => user.id === id);
+    // if (!findUser) throw new Error("user id not found");
+    // done(null, findUser);
+  } catch (error) {
+    done(error, null);
+  }
+});
