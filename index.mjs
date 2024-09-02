@@ -13,6 +13,9 @@ import passport from "passport"; //npm i passport passport-local+
 import { createUserValidationSchema } from "./src/utils/validationSchemas.mjs";
 import "./src/strategies/local-strategies.mjs";
 import mongoose from "mongoose"; //import this to connect the database of mongoose
+
+import MongoStore from "connect-mongo"; //this one for session store, if the servers goes down, it will restore the session of user
+
 import { user } from "./src/mongoose/schemas/user.mjs";
 import { hashPassword } from "./src/utils/helper.mjs";
 
@@ -37,6 +40,9 @@ app.use(
     cookie: {
       maxAge: 60000 * 60,
     },
+    store: MongoStore.create({
+      client: mongoose.connection.getClient()
+    })
   })
 );
 
@@ -147,8 +153,8 @@ app.use(passport.session());
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ////////this route is for passport.js, this passport.authenticate('local') here you will pass "facebook", "discord", "google" depends on what strategy you used
-// this one for login after using the route /api/user
 
+// this one for login after using the route /api/user
 app.post(
   "/api/auth/login",
   passport.authenticate("local"),
