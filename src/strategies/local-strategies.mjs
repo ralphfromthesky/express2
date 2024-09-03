@@ -42,10 +42,12 @@ export default passport.use(
 );
 
 //this function is  taking user object that we just validate it in  passport.use(new stategy(() => {})) and storing it in the session
+//like creating a unique id to store in the session
 passport.serializeUser((user, done) => {
   console.log("inisde serialize user");
   console.log(user);
-  done(null, user.id);
+  //dont pass the whole user for the second parameter in don(null, user).. it will populate all the data it should only the id or name like done(null, user.id) or dont(null, user.username)
+  done(null, user.id); // the second parameter is somtheing that is uniqued, id, name..
 });
 
 passport.deserializeUser(async (id, done) => {

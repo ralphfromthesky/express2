@@ -1,0 +1,10 @@
+setting passport.js
+
+1. npm install passport passport-local 
+    if you want to install facebook, npm i passport-facebook,
+
+2. "import passporrt from "passporrt" ;" in the main.j or index.js
+
+3. needs to register, "app.use(passporrt.initialize())"
+4. and use "app.use(passporrt.session())" for session.
+5. create a folder fo local strategy, inside local-strategy.mjs

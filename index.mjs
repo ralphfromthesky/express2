@@ -40,6 +40,7 @@ app.use(
     cookie: {
       maxAge: 60000 * 60,
     },
+    //this one is for persisted state
     store: MongoStore.create({
       client: mongoose.connection.getClient()
     })
@@ -152,12 +153,13 @@ app.use(passport.session());
 // })
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-////////this route is for passport.js, this passport.authenticate('local') here you will pass "facebook", "discord", "google" depends on what strategy you used
 
+
+////////this route is for passport.js, this passport.authenticate('local') here you will pass "facebook", "discord", "google" depends on what strategy you used
 // this one for login after using the route /api/user
 app.post(
   "/api/auth/login",
-  passport.authenticate("local"),
+  passport.authenticate("local"), //
   (request, response) => {
     response.sendStatus(200);
   }
