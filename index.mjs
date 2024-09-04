@@ -12,6 +12,8 @@ import cookieParser from "cookie-parser"; //this one for parsing cookie if cooki
 import passport from "passport"; //npm i passport passport-local+
 import { createUserValidationSchema } from "./src/utils/validationSchemas.mjs";
 import "./src/strategies/local-strategies.mjs";
+
+
 import mongoose from "mongoose"; //import this to connect the database of mongoose
 
 import MongoStore from "connect-mongo"; //this one for session store, if the servers goes down, it will restore the session of user
@@ -183,17 +185,21 @@ app.post('/api/auth/logout', (request, response) => {
 })
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+//this API route is for adding user in the database
 app.post(
   "/api/user",
-  checkSchema(createUserValidationSchema),
+  checkSchema(createUserValidationSchema), // this one checking validation for input
   async (request, response) => {
+
+
     const result = validationResult(request);
-    if (!result.isEmpty()) return response.status(400).send(result.array());
-    const data = matchedData(request);
+    if (!result.isEmpty()) return response.status(400).send(result.array()); //this one check if theres error!
+    const data = matchedData(request); //this one from express validator
     console.log(data);
     data.password = hashPassword(data.password) //this hashing the password
     console.log(data);
+
+
     const newUser = new user(data);
     try {
       const savedUser = await newUser.save();
